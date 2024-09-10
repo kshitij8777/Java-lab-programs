@@ -57,3 +57,68 @@ public class abstraction {
 		}
 	}
 }
+
+
+
+
+
+
+
+
+# run time polimorphism 
+	
+package lab3;
+
+import java.util.Scanner;
+
+interface Vehicle{
+	abstract void drive();
+}
+
+class Car implements Vehicle{
+	public void drive() {
+		System.out.println("Human driving car");
+	}
+}
+
+class MotorCycle implements Vehicle{
+	public void drive() {
+		System.out.println("Human driving motorcycle");
+	}
+}
+
+public class Polymorphism {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		Vehicle c;
+		Vehicle m;
+		System.out.println("1.Car\n2.Motorcycle\n3.Exit");
+		while(true) {
+			System.out.println("Enter your choice:");
+			int ch = sc.nextInt();
+			switch(ch) {
+			case 1:{
+				c = new Car();
+				c.drive();
+				break;
+			}
+			case 2:{
+				m = new MotorCycle();
+				m.drive();
+				break;
+			}
+			case 3:
+				System.out.println("Exit from program");
+				sc.close();
+				return;
+				default:
+					System.out.println("Invalid choice");
+					break;
+			}
+		}	
+	/*	Vehicle c = new Car();
+		Vehicle m = new MotorCycle();
+		c.drive();
+		m.drive(); */
+	}
+}
