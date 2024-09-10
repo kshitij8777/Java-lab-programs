@@ -1,0 +1,136 @@
+package shapes.area;
+
+public class circle {
+	private double radius;
+	
+	public circle(double radius) {
+		this.radius = radius;
+	}
+	
+	public double calculateArea() {
+		return 3.14*radius*radius;
+	}
+	public double calculateCircum() {
+		return 2*3.14*radius;
+	}
+}
+
+
+
+package shapes.area;
+
+public class square {
+	private double side;
+	
+	public square(double side) {
+		this.side=side;
+	}
+	public double calculateArea() {
+		return side*side;
+	}
+	public double calculatePerimeter() {
+		return 4 * side;
+	}
+}
+
+
+
+
+package shapes.area;
+
+public class Triangle {
+	private double base;
+	private double height;
+	private double side1;
+	private double side2;
+	private double side3;
+	public Triangle(double base, double height, double side1, double side2, double side3) {
+		this.base=base;
+		this.height=height;
+		this.side1=side1;
+		this.side2=side2;
+		this.side3=side3;
+	}
+	public double calculateArea() {
+		return 0.5 * base*height;
+	}
+	public double calculatePerimeter() {
+		return side1 + side2 + side3;
+	}
+}
+
+
+
+
+
+
+package calculate.area;
+import shapes.area.*;
+import java.util.Scanner;
+
+public class Main{
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in); 
+		int choice;
+		
+		do {
+			System.out.println("Choose a Shape To Calculate:");
+			System.out.println("1.Square");
+			System.out.println("2.Triangle");
+			System.out.println("3.Circle");
+			System.out.println("4.Exit");
+			System.out.print("Enter your choice:");
+			choice = sc.nextInt();
+			
+			if (choice == 1) {
+				System.out.print("Enter the side of the square: ");
+                double sqSide = sc.nextDouble();
+                square sq = new square(sqSide);
+                System.out.println("Square side: " + sqSide);
+                System.out.println("Square area: " + sq.calculateArea());
+                System.out.println("Square perimeter: " + sq.calculatePerimeter());
+			}
+			else if (choice == 2) {
+				 	System.out.print("Enter the base of the triangle: ");
+	                double trBase = sc.nextDouble();
+	                System.out.print("Enter the height of the triangle: ");
+	                double trHeight = sc.nextDouble();
+	                System.out.print("Enter the length of side 1: ");
+	                double side1 = sc.nextDouble();
+	                System.out.print("Enter the length of side 2: ");
+	                double side2 = sc.nextDouble();
+	                System.out.print("Enter the length of side 3: ");
+	                double side3 = sc.nextDouble();
+
+	                Triangle tr = new Triangle(trBase, trHeight, side1, side2, side3);
+	                System.out.println("Triangle base: " + trBase);
+	                System.out.println("Triangle height: " + trHeight);
+	                System.out.println("Triangle side 1: " + side1);
+	                System.out.println("Triangle side 2: " + side2);
+	                System.out.println("Triangle side 3: " + side3);
+	                System.out.println("Triangle area: " + tr.calculateArea());
+	                System.out.println("Triangle perimeter: " + tr.calculatePerimeter());
+				
+			}
+			else if (choice == 3) {
+				System.out.println("Enter the radius of the circle:");
+				double rad = sc.nextDouble();
+				
+				circle cl=new circle(rad);
+				System.out.println("Radius of the circle is:"+rad);
+				System.out.println("Area Of the circle is:"+cl.calculateArea());
+				System.out.println("Circumference of the circle is:"+cl.calculateCircum());
+			}
+			else if (choice == 4) {
+				
+				System.out.println("Exiting............");
+				break;
+			}
+			else {
+				System.out.println("Invalid Choice.Please choose again");
+			}
+		}while (choice != 4);
+		
+		sc.close();
+	}
+}
