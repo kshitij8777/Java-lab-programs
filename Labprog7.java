@@ -1,98 +1,82 @@
-package java_basics.proj6.porgram7;
+package Lab7;
+import java.util.Scanner;
 
-public class Labprog7 {
+class SingletonBank {
+    private static SingletonBank instance;
+    private double balance;
 
-    static class IllegalArgumentException extends Exception {
-        public IllegalArgumentException(String msg) {
-            super(msg);
-            System.out.println(msg);
-        }
+    private SingletonBank() {
+        this.balance = 0.0;
     }
 
-    static class SingletonBank {
-        private static final SingletonBank instance = new SingletonBank();
-        private double balance;
-
-        private SingletonBank() {
-            this.balance = 0.0;
+    public static synchronized SingletonBank getInstance() {
+        if (instance == null) {
+            instance = new SingletonBank();
         }
-
-        public static synchronized SingletonBank getInstance() {
-            return instance;
-        }
-
-        public synchronized void credit(double amount) throws IllegalArgumentException {
-            if (amount < 0) {
-                throw new IllegalArgumentException("Amount must be positive");
-            }
-            balance += amount;
-            System.out.println("Credited " + amount + ", new balance: " + balance);
-        }
-
-        public synchronized void debit(double amount) throws IllegalArgumentException {
-            if (amount < 0) {
-                throw new IllegalArgumentException("Amount must be positive");
-            }
-            if (balance < amount) {
-                throw new IllegalArgumentException("Insufficient funds");
-            }
-            balance -= amount;
-            System.out.println("Debited " + amount + ", new balance: " + balance);
-        }
-
-        public synchronized double getBalance() {
-            return this.balance;
-        }
+        return instance;
     }
 
-    static class CreditThread extends Thread {
-        private final SingletonBank account;
-        private final double amount;
-
-        CreditThread(SingletonBank account, double amount) {
-            this.account = account;
-            this.amount = amount;
+    public synchronized void credit(double amount) {
+        if (amount < 0) {
+            System.out.println("Amount must be positive.");
+            return;
         }
-
-        @Override
-        public void run() {
-            try {
-                account.credit(amount);
-            } catch (IllegalArgumentException e) {
-                System.out.println(e);
-            }
-        }
+        this.balance += amount;
+        System.out.println("Credited: " + amount + ". New balance: " + this.balance);
     }
 
-    static class DebitThread extends Thread {
-        private final SingletonBank account;
-        private final double amount;
-
-        DebitThread(SingletonBank account, double amount) {
-            this.account = account;
-            this.amount = amount;
+    public synchronized void debit(double amount) {
+        if (amount < 0) {
+            System.out.println("Amount must be positive.");
+            return;
         }
-
-        @Override
-        public void run() {
-            try {
-                account.debit(amount);
-            } catch (IllegalArgumentException e) {
-                System.out.println(e);
-            }
+        if (amount > this.balance) {
+            System.out.println("Insufficient funds.");
+            return;
         }
+        this.balance -= amount;
+        System.out.println("Debited: " + amount + ". New balance: " + this.balance);
     }
 
+    public synchronized double getBalance() {
+        return this.balance;
+    }
+}
+
+public class Bank {
     public static void main(String[] args) {
         SingletonBank account = SingletonBank.getInstance();
-        Thread t1 = new CreditThread(account, 1000);
-        Thread t2 = new DebitThread(account, 500);
-        Thread t3 = new CreditThread(account, 1000);
-        Thread t4 = new DebitThread(account, 500);
+        Scanner scanner = new Scanner(System.in);
+       
 
-        t1.start();
-        t2.start();
-        t3.start();
-        t4.start();
+        while (true) {
+            System.out.println("1. Credit 2. Debit 3. Check Balance 4. Exit");
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter amount to credit: ");
+                    double creditAmount = scanner.nextDouble();
+                    account.credit(creditAmount);
+                    break;
+                case 2:
+                    System.out.print("Enter amount to debit: ");
+                    double debitAmount = scanner.nextDouble();
+                    account.debit(debitAmount);
+                    break;
+                case 3:
+                    System.out.println("Current balance: " + account.getBalance());
+                    break;
+                case 4:
+                    System.out.println("Exiting...");
+                  	scanner.close();
+                 		System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+                    break;
+            }
+        }
+
+        scanner.close();
     }
 }
