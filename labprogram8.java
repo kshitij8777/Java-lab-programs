@@ -36,9 +36,8 @@ public class lab8 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         NumberOperations<Number> operations = new NumberOperations<>();
-        boolean exit = false;
-
-        while (!exit) {
+        
+        while (true) {
             System.out.println("\nMenu:");
             System.out.println("1. Add Integer");
             System.out.println("3. Remove Number");
@@ -56,16 +55,10 @@ public class lab8 {
                     break;
 
                 case 3:
-                    System.out.print("Enter the number to remove (Integer or Double): ");
-                    if (scanner.hasNextInt()) {
+                    System.out.print("Enter the number to remove  : ");
                         int removeInt = scanner.nextInt();
                         operations.removeNumber(removeInt);
-                    } else if (scanner.hasNextDouble()) {
-                        double removeDouble = scanner.nextDouble();
-                        operations.removeNumber(removeDouble);
-                    } else {
-                        System.out.println("Invalid input.");
-                    }
+                    
                     break;
 
                 case 4:
@@ -78,15 +71,16 @@ public class lab8 {
                     break;
 
                 case 7:
-                    exit = true;
+                   
                     System.out.println("Exiting...");
-                    break;
+                    scanner.close();
+                    return;
 
                 default:
                     System.out.println("Invalid choice, please try again.");
             }
         }
 
-        scanner.close();
+        
     }
 }
